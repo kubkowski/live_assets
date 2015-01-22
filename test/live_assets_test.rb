@@ -33,4 +33,19 @@ class LiveAssetsTest < ActiveSupport::TestCase
             l.kill
         end
     end
+
+    test "can subscribe to existing reloadCSS events" do
+        subscriber = []
+        LiveAssets.subscribe(subscriber)
+
+        begin
+            while subscriber.empty?
+                FileUtils.touch("test/dummy/app/assets/stylesheets/application.css")
+            end
+
+            assert_includes subscriber, :reloadCSS
+        ensure
+            LiveAssets.unsubscribe(subscriber)
+        end
+    end
 end
