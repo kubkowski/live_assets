@@ -1,7 +1,7 @@
 require "thread"
 
 module LiveAssets
-    class SseSubscriber
+    class SSESubscriber
         def initialize(queue = Queue.new)
             @queue = queue
             LiveAssets.subscribe(@queue)
